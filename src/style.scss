@@ -1,0 +1,116 @@
+.wsd-afb {
+
+  .wsd-afb-action-input {
+    $height: 32px;
+    $wpInputBorder: 1px solid #757575;
+    $wpInputFocusColor: var(--wp-admin-theme-color);
+    $wpButtonFocusBoxShadow: 0 0 0 var(--wp-admin-border-width-focus) var(--wp-admin-theme-color);
+    $wpButtonFocusBackgroundColor: var(--wp-admin-theme-color-darker-10);
+    $wpButtonHoverBorderColor: var(--wp-admin-theme-color-darker-10);
+
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    margin-bottom: 8px;
+
+    & > .components-base-control {
+      flex-grow: 1;
+      margin: 0;
+
+      .components-base-control__field {
+        margin: 0;
+
+        .components-text-control__input {
+          height: $height;
+          margin: 0;
+          border-right: 0;
+          border-top-right-radius: 0;
+          border-bottom-right-radius: 0;
+        }
+      }
+    }
+
+    & > button {
+      display: flex;
+      height: $height;
+      border-right-width: 0;
+      border-radius: 0;
+      box-shadow: none;
+
+      /**
+       * `Help` button.
+       */
+      &.is-secondary {
+        border-top: $wpInputBorder;
+        border-bottom: $wpInputBorder;
+        &:hover {
+          box-shadow: none;
+        }
+      }
+
+      /**
+       * `Add` button.
+       */
+      &.button-primary {
+        order: 1; // Rendered first for tabindex.
+        &:focus {
+          color: #fff;
+          background-color: $wpButtonFocusBackgroundColor;
+          box-shadow: $wpButtonFocusBoxShadow;
+        }
+        &:active {
+          color: #fff;
+        }
+      }
+
+      &.icon-button {
+        padding: 6px;
+      }
+
+      &.is-last {
+        border-right-width: 1px;
+        border-top-right-radius: 2px;
+        border-bottom-right-radius: 2px;
+      }
+
+      &:hover ~ button {
+        border-left-color: $wpButtonHoverBorderColor;
+      }
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    &:focus-within {
+      .components-text-control__input {
+        box-shadow: none;
+        border-color: $wpInputFocusColor;
+      }
+      button {
+        border-top-color: $wpInputFocusColor;
+        border-bottom-color: $wpInputFocusColor;
+        &:last-child {
+          border-right-color: $wpInputFocusColor;
+        }
+      }
+    }
+  }
+
+  form.wsd-afb-action-input {
+    margin-bottom: 0;
+  }
+
+  .wsd-afb-message {
+    margin-bottom: 4px;
+  }
+}
+
+.wsd-afb-help {
+  h3 {
+    margin-bottom: 0;
+    &:first-child {
+      margin-top: 0;
+    }
+  }
+}

@@ -1,0 +1,28 @@
+{
+	"name": "attributes-for-blocks",
+	"version": "1.0.0",
+	"description": "Allows to add custom HTML attributes to Gutenberg blocks.",
+	"author": "websevendev <websevendev@gmail.com>",
+	"license": "GPL-2.0-or-later",
+	"main": "src/index.js",
+	"scripts": {
+		"start": "wp-scripts start",
+		"dev": "npm run start",
+		"build": "wp-scripts build",
+		"test": "wp-scripts test-unit-js",
+		"test:watch": "wp-scripts test-unit-js --watch",
+		"release": "npm run test && npm run build && ./bin/build-plugin-zip.sh"
+	},
+	"devDependencies": {
+		"@wordpress/block-editor": "^7.0.0",
+		"@wordpress/blocks": "^11.0.0",
+		"@wordpress/components": "^15.0.0",
+		"@wordpress/compose": "^5.0.0",
+		"@wordpress/element": "^4.0.0",
+		"@wordpress/hooks": "^3.2.0",
+		"@wordpress/i18n": "^4.2.1",
+		"@wordpress/icons": "^5.0.0",
+		"@wordpress/scripts": "^17.1.0",
+		"enzyme": "^3.11.0"
+	}
+}
