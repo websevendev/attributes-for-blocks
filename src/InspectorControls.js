@@ -88,7 +88,7 @@ class InspectorControls extends Component {
 			/**
 			 * Focus already existing attribute.
 			 */
-			$(`.wsd-afb-action-input#afb-${normalizedKey} input[type="text"]`).focus();
+			$(`.wsd-afb-action-input#afb-${normalizedKey} input[type="text"]`).trigger('focus');
 			return;
 		}
 
