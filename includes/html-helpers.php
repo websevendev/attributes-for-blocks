@@ -16,7 +16,7 @@ defined('ABSPATH') || exit;
 function get_dom($html) {
 	$dom = new DOMDocument();
 	$libxml_previous_state = libxml_use_internal_errors(true);
-	$dom->loadHTML('<html><body>' . trim($html) . '</body></html>');
+	$dom->loadHTML('<html><body>' . mb_convert_encoding(trim($html), 'HTML-ENTITIES', 'UTF-8') . '</body></html>');
 	libxml_clear_errors();
 	libxml_use_internal_errors($libxml_previous_state);
 	return $dom;
