@@ -12,6 +12,7 @@ import {
 } from '@wordpress/block-editor';
 
 import {
+	BaseControl,
 	TextControl,
 	Button,
 	Dashicon,
@@ -152,7 +153,7 @@ class InspectorControls extends Component {
 
 		return (
 			<InspectorAdvancedControls>
-				<div className='wsd-afb'>
+				<BaseControl className='wsd-afb'>
 					<form
 						className='wsd-afb-action-input'
 						onSubmit={this.addAttribute}
@@ -214,7 +215,7 @@ class InspectorControls extends Component {
 							</div>
 						);
 					})}
-				</div>
+				</BaseControl>
 			</InspectorAdvancedControls>
 		);
 	}
