@@ -17,8 +17,6 @@ import {
 	Dashicon,
 } from '@wordpress/components';
 
-import $ from 'jquery';
-
 import HelpModal from './HelpModal';
 
 import {
@@ -54,7 +52,7 @@ class InspectorControls extends Component {
 			 * Focus newly added attribute.
 			 */
 			setTimeout(() => {
-				$(`.wsd-afb-action-input#afb-${prevState.adding} input[type="text"]`).trigger('focus');
+				document.querySelector(`.wsd-afb-action-input#afb-${prevState.adding} input[type="text"]`)?.focus();
 			}, 50);
 		}
 	}
@@ -88,7 +86,7 @@ class InspectorControls extends Component {
 			/**
 			 * Focus already existing attribute.
 			 */
-			$(`.wsd-afb-action-input#afb-${normalizedKey} input[type="text"]`).trigger('focus');
+			document.querySelector(`.wsd-afb-action-input#afb-${normalizedKey} input[type="text"]`).focus();
 			return;
 		}
 
