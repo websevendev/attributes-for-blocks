@@ -22,6 +22,7 @@
 		"@wordpress/hooks": "^3.2.2",
 		"@wordpress/i18n": "^4.2.4",
 		"@wordpress/icons": "^6.1.1",
-		"@wordpress/scripts": "^19.2.2"
+		"@wordpress/scripts": "^19.2.2",
+		"style-to-object": "^0.3.0"
 	}
 }

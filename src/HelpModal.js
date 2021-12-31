@@ -79,6 +79,10 @@ export default HelpModal = () => {
 							${__(`Spaces are allowed, leading or trailing semicolons are not needed.`, 'attributes-for-blocks')}<br>
 							${__(`Styles are not rendered in the block editor.`, 'attributes-for-blocks')}
 						`}</RawHTML>
+						<h5>{__(`Advanced editor`, 'attributes-for-blocks')}</h5>
+						<RawHTML as='p'>{`
+							${__(`Style attribute can be edited with an advanced editor by clicking "Toggle editor".`, 'attributes-for-blocks')}
+						`}</RawHTML>
 						<h4>{__(`ID attribute`, 'attributes-for-blocks')}</h4>
 						<p>{__(`If the block supports it, you should use the built-in "HTML anchor" feature instead.`, 'attributes-for-blocks')}</p>
 						<h4>{__(`Class attribute`, 'attributes-for-blocks')}</h4>

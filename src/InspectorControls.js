@@ -19,6 +19,7 @@ import {
 } from '@wordpress/components';
 
 import HelpModal from './HelpModal';
+import StyleEditor from './StyleEditor';
 
 import {
 	renameProp,
@@ -34,11 +35,13 @@ class InspectorControls extends Component {
 		this.state = {
 			adding: '',
 			message: undefined,
+			styleEditor: JSON.parse(localStorage.getItem('attributesForBlocks/styleEditor')) || false,
 		};
 
 		this.addAttribute = this.addAttribute.bind(this);
 		this.removeAttribute = this.removeAttribute.bind(this);
 		this.toggleAttributeMode = this.toggleAttributeMode.bind(this);
+		this.toggleStyleEditor = this.toggleStyleEditor.bind(this);
 	}
 
 	/**
@@ -53,8 +56,18 @@ class InspectorControls extends Component {
 			 * Focus newly added attribute.
 			 */
 			setTimeout(() => {
-				document.querySelector(`.wsd-afb-action-input#afb-${prevState.adding} input[type="text"]`)?.focus();
-			}, 50);
+				if(prevState.adding === 'style' && this.state.styleEditor) {
+					document.querySelector(`.wsd-afb-style input[type="text"]`)?.focus();
+				} else {
+					document.querySelector(`.wsd-afb-action-input#afb-${prevState.adding} input[type="text"]`)?.focus();
+				}
+			}, 150);
+		}
+		if(prevState.styleEditor !== this.state.styleEditor) {
+			/**
+			 * Sync style editor setting.
+			 */
+			localStorage.setItem('attributesForBlocks/styleEditor', this.state.styleEditor);
 		}
 	}
 
@@ -145,6 +158,17 @@ class InspectorControls extends Component {
 	}
 
 	/**
+	 * Switch style editor mode.
+	 */
+	toggleStyleEditor(e) {
+		this.setState({styleEditor: !this.state.styleEditor});
+		if(e) {
+			e.preventDefault();
+			return false;
+		}
+	}
+
+	/**
 	 * Render Attributes for Blocks inspector controls.
 	 */
 	render() {
@@ -160,7 +184,7 @@ class InspectorControls extends Component {
 					>
 						<TextControl
 							label={__('Additional attributes', 'attributes-for-blocks')}
-							placeholder={__('Add attribute', 'attributes-for-blocks')}
+							placeholder={__('Attribute name...', 'attributes-for-blocks')}
 							value={adding}
 							onChange={value => this.setState({
 								adding: value,
@@ -178,41 +202,58 @@ class InspectorControls extends Component {
 					</form>
 					<p className='wsd-afb-message'>{this.state.message || '\u00A0'}</p>
 					{attributesForBlocks && Object.keys(attributesForBlocks).map(attribute => {
-						let normalizedName = attribute.replace('@', '');
-						let isOverride = attribute.substring(0, 1) === '@';
-						let label = (
-							<Fragment>
-								<strong>{normalizedName}</strong>
-								{isOverride && ' ' + __('(override)', 'attributes-for-blocks')}
-							</Fragment>
-						);
+						const normalizedName = attribute.replace('@', '');
+						const isOverride = attribute.substring(0, 1) === '@';
+						const editor = normalizedName.toLowerCase() === 'style' && this.state.styleEditor ? 'style' : 'default';
 						return (
-							<div
-								key={attribute}
-								id={'afb-' + normalizedName}
-								className='wsd-afb-action-input'
-							>
-								<TextControl
-									label={label}
-									value={attributesForBlocks[attribute]}
-									onChange={value => this.updateAttribute(attribute, value)}
-								/>
-								<Button
-									className='button icon-button'
-									aria-label={__('Toggle between merge and override mode', 'attributes-for-blocks')}
-									aria-current={isOverride ? __('Override', 'attributes-for-blocks') : __('Merge', 'attributes-for-blocks')}
-									onClick={() => this.toggleAttributeMode(attribute)}
+							<Fragment>
+								<div
+									key={attribute}
+									id={'afb-' + normalizedName}
+									className='wsd-afb-action-input'
 								>
-									<Dashicon icon='randomize' />
-								</Button>
-								<Button
-									className='button icon-button is-last'
-									aria-label={__('Remove attribute', 'attributes-for-blocks') + ': ' + normalizedName}
-									onClick={() => this.removeAttribute(attribute)}
-								>
-									<Dashicon icon='no-alt' />
-								</Button>
-							</div>
+									{normalizedName.toLowerCase() === 'style' && (
+										<div className='wsd-afb-action-link'>
+											<a href='#' onClick={this.toggleStyleEditor}>
+												{__('Toggle editor', 'attributes-for-blocks')}
+											</a>
+										</div>
+									)}
+									<TextControl
+										label={(
+											<Fragment>
+												<strong>{normalizedName}</strong>
+												{isOverride && ' ' + __('(override)', 'attributes-for-blocks')}
+											</Fragment>
+										)}
+										disabled={editor === 'style'}
+										value={attributesForBlocks[attribute]}
+										onChange={value => this.updateAttribute(attribute, value)}
+									/>
+									<Button
+										className='button icon-button'
+										aria-label={__('Toggle between merge and override mode', 'attributes-for-blocks')}
+										aria-current={isOverride ? __('Override', 'attributes-for-blocks') : __('Merge', 'attributes-for-blocks')}
+										onClick={() => this.toggleAttributeMode(attribute)}
+									>
+										<Dashicon icon='randomize' />
+									</Button>
+									<Button
+										className='button icon-button is-last'
+										aria-label={__('Remove attribute', 'attributes-for-blocks') + ': ' + normalizedName}
+										onClick={() => this.removeAttribute(attribute)}
+									>
+										<Dashicon icon='no-alt' />
+									</Button>
+								</div>
+								{editor === 'style' && (
+									<StyleEditor
+										value={attributesForBlocks[attribute]}
+										onChange={value => this.updateAttribute(attribute, value)}
+										toggleStyleEditor={this.toggleStyleEditor}
+									/>
+								)}
+							</Fragment>
 						);
 					})}
 				</BaseControl>
