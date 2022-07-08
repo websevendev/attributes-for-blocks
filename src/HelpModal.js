@@ -40,6 +40,7 @@ export default HelpModal = () => {
 				<Modal
 					title={__('Attributes for Blocks help', 'attributes-for-blocks')}
 					onRequestClose={() => setIsOpen(false)}
+					style={{maxWidth: 720}}
 				>
 					<div className='wsd-afb-help'>
 						<h3>{__('How do I add an attribute?', 'attributes-for-blocks')}</h3>

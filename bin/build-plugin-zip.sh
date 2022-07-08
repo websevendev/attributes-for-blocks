@@ -10,7 +10,6 @@ zip -r attributes-for-blocks.zip \
 	readme.txt \
 	build/* \
 	includes/* \
-	src/* \
 	--exclude="src/test/*"
 
 unzip attributes-for-blocks.zip -d attributes-for-blocks

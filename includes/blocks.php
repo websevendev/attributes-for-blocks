@@ -5,6 +5,19 @@ namespace wsd\afb;
 defined('ABSPATH') || exit;
 
 /**
+ * Should additional attributes from this plugin be applied.
+ *
+ * @param array $attributes Block attributes.
+ * @return boolean
+ */
+function has_attributes($attributes) {
+	return is_array($attributes)
+		&& isset($attributes['attributesForBlocks'])
+		&& is_array($attributes['attributesForBlocks'])
+		&& count($attributes['attributesForBlocks']) > 0;
+}
+
+/**
  * When registering a block, add AFB argument and wrap `render_callback`.
  *
  * @param array $args
@@ -24,32 +37,21 @@ function block_args($args, $name) {
 		$args['attributes'] = [];
 	}
 
-	/**
-	 * Register AFB attribute.
-	 */
+	/** Register AFB attribute. */
 	$args['attributes']['attributesForBlocks'] = [
 		'type' => 'object',
 		'default' => [],
 	];
 
-	/**
-	 * Override `render_callback` to add animation attributes.
-	 */
 	if(isset($args['render_callback']) && is_callable($args['render_callback'])) {
+		/** Override `render_callback` to add additional attributes. */
 		$cb = $args['render_callback'];
-		$args['render_callback'] = function($attributes, $content, $block = null) use ($cb, $name) {
+		$args['render_callback'] = function($attributes, $content, $block = null) use ($cb) {
 			$rendered = call_user_func($cb, $attributes, $content, $block);
-			if(
-				!isset($attributes['attributesForBlocks'])
-				|| !is_array($attributes['attributesForBlocks'])
-				|| count($attributes['attributesForBlocks']) < 1
-			) {
+			if(!has_attributes($attributes)) {
 				return $rendered;
 			}
-			return add_attributes(
-				$attributes['attributesForBlocks'],
-				$rendered
-			);
+			return add_attributes($attributes['attributesForBlocks'], $rendered);
 		};
 	}
 

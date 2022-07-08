@@ -2,9 +2,9 @@
 Contributors: websevendev, jimedwards
 Tags: gutenberg, blocks, attributes, id, style, data, aria, onclick
 Requires at least: 5.6
-Tested up to: 5.8
+Tested up to: 6.0
 Requires PHP: 5.4
-Stable tag: 1.0.2
+Stable tag: 1.0.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -58,6 +58,14 @@ Blocks with custom attributes may become invalid, depending on which attributes 
 2. Activate the plugin from **WordPress admin dashboard -> Plugins**.
 
 == Changelog ==
+
+= 1.0.3 =
+* Update `@wordpress/*` packages.
+* Test with WordPress 6.0.
+* Convert advanced style attribute editor to TypeScript and refactor.
+* Fix duplicate attribute values being output when the block has both JS and PHP render functions.
+* Add GitHub link.
+* Remove `src` folder from plugin.
 
 = 1.0.2 =
 * Add advanced editor for style attribute.

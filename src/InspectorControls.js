@@ -52,9 +52,7 @@ class InspectorControls extends Component {
 	 */
 	componentDidUpdate(prevProps, prevState) {
 		if(prevState.adding && !this.state.adding) {
-			/**
-			 * Focus newly added attribute.
-			 */
+			/** Focus newly added attribute. */
 			setTimeout(() => {
 				if(prevState.adding === 'style' && this.state.styleEditor) {
 					document.querySelector(`.wsd-afb-style input[type="text"]`)?.focus();
@@ -64,9 +62,7 @@ class InspectorControls extends Component {
 			}, 150);
 		}
 		if(prevState.styleEditor !== this.state.styleEditor) {
-			/**
-			 * Sync style editor setting.
-			 */
+			/** Sync style editor setting. */
 			localStorage.setItem('attributesForBlocks/styleEditor', this.state.styleEditor);
 		}
 	}
@@ -97,9 +93,7 @@ class InspectorControls extends Component {
 		let normalizedKey = adding.replace('@', '');
 		if(normalizedKey in attributesForBlocks || '@' + normalizedKey in attributesForBlocks) {
 			this.setState({message: __('Attribute already exists', 'attributes-for-blocks')});
-			/**
-			 * Focus already existing attribute.
-			 */
+			/** Focus already existing attribute. */
 			document.querySelector(`.wsd-afb-action-input#afb-${normalizedKey} input[type="text"]`).focus();
 			return;
 		}
@@ -206,15 +200,11 @@ class InspectorControls extends Component {
 						const isOverride = attribute.substring(0, 1) === '@';
 						const editor = normalizedName.toLowerCase() === 'style' && this.state.styleEditor ? 'style' : 'default';
 						return (
-							<Fragment>
-								<div
-									key={attribute}
-									id={'afb-' + normalizedName}
-									className='wsd-afb-action-input'
-								>
+							<Fragment key={attribute}>
+								<div id={`afb-${normalizedName}`} className='wsd-afb-action-input'>
 									{normalizedName.toLowerCase() === 'style' && (
 										<div className='wsd-afb-action-link'>
-											<a href='#' onClick={this.toggleStyleEditor}>
+											<a href='#' role='button' onClick={this.toggleStyleEditor}>
 												{__('Toggle editor', 'attributes-for-blocks')}
 											</a>
 										</div>

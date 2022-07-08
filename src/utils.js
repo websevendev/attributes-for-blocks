@@ -7,7 +7,7 @@ import {
 } from '@wordpress/element';
 
 /**
- * Rename object key while maintaining it's position in the object.
+ * Rename object key while maintaining its' position in the object.
  */
 export const renameProp = (oldProp, newProp, props) => {
 	let map = {[oldProp]: newProp};
@@ -22,7 +22,7 @@ export const renameProp = (oldProp, newProp, props) => {
 };
 
 /**
- * Handle merging custom attribute with the block's existing attribute.
+ * Handle merging custom attribute with existing attribute.
  *
  * @param {string} attribute Attribute name.
  * @param {*} current Current attribute value.
@@ -33,9 +33,7 @@ export const mergeAttributes = function(attribute, current, add) {
 		return add;
 	}
 
-	/**
-	 * Join attributes with space in between.
-	 */
+	/** Join attributes with space in between. */
 	let separator = ' ';
 
 	/**
@@ -43,9 +41,7 @@ export const mergeAttributes = function(attribute, current, add) {
 	 */
 	if(attribute === 'style') {
 		switch(typeof current) {
-			/**
-			 * Merge and return style object with content from custom style string.
-			 */
+			/** Merge and return style object with content from custom style string. */
 			case 'object':
 				let newStyles = {};
 				add.trim().split(';').forEach(style => {
@@ -56,9 +52,7 @@ export const mergeAttributes = function(attribute, current, add) {
 				});
 				return {...current, ...newStyles};
 
-			/**
-			 * Join string style with ; if needed.
-			 */
+			/** Join string style with ; if needed. */
 			case 'string':
 				if(current.trim().substring(current.length - 1, current.length) !== ';' && add.trim().substring(0, 1) !== ';') {
 					separator = ';';
@@ -66,9 +60,7 @@ export const mergeAttributes = function(attribute, current, add) {
 		}
 	}
 
-	/**
-	 * Allow to use custom separator.
-	 */
+	/** Allow to use custom separator. */
 	separator = applyFilters('afb.attribute.separator', separator, attribute, current, add);
 
 	return [current, add].join(separator);

@@ -46,7 +46,6 @@ const withFeatureAttributes = function(settings) {
 	if(featureIsSupported(settings)) {
 		settings.attributes = Object.assign(settings.attributes || {}, featureAttributes);
 	}
-
 	return settings;
 }
 
@@ -63,7 +62,6 @@ const withFeatureInspectorControls = createHigherOrderComponent(function(BlockEd
 				</Fragment>
 			);
 		}
-
 		return <BlockEdit {...props} />;
 	};
 }, 'withAttributesForBlocksInspectorControls');
@@ -77,20 +75,15 @@ const withExtraProps = (extraProps, blockType, attributes) => {
 		if(attributesForBlocks) {
 			Object.keys(attributesForBlocks).forEach(attribute => {
 				if(attribute.substring(0, 1) === '@') {
-					/**
-					 * Override mode: simply override the attribute.
-					 */
+					/** Override mode: simply override the attribute. */
 					extraProps[attribute.substring(1)] = attributesForBlocks[attribute];
 				} else {
-					/**
-					 * Merge mode: try to merge attribute (if original value exists).
-					 */
+					/** Merge mode: try to merge attribute (if original value exists). */
 					extraProps[attribute] = mergeAttributes(attribute, extraProps[attribute], attributesForBlocks[attribute]);
 				}
 			});
 		}
 	}
-
 	return extraProps;
 }
 

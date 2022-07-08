@@ -5,20 +5,39 @@ namespace wsd\afb;
 defined('ABSPATH') || exit;
 
 /**
+ * Handle merging custom attribute with existing attribute.
+ *
  * @param string $attribute Attribute name.
  * @param string $current Current attribute value.
  * @param string $add Value to merge with.
  * @return string
  */
 function merge_attributes($attribute, $current, $add) {
-	$current = trim($current);
+
+	/** Clean attribute. */
+	switch($attribute) {
+		case 'style':
+			/** Ensure style applied via JS matches input style.  */
+			$add = str_replace(': ', ':', $add);
+			$add = str_replace('; ', ';', $add);
+			$add = rtrim($add, ';');
+			$current = rtrim($current, ';');
+		break;
+	}
+
+	$current = trim(
+		/** Remove the existing attribute value when it already exists (added via JS while the block also has PHP `render_callback`). */
+		str_replace($add, '', $current)
+	);
 	$add = trim($add);
+
+	/** Nothing to merge. */
 	if(empty($current)) {
 		return $add;
 	}
 
+	/** Determine the separator based on attribute type. */
 	$separator = ' ';
-
 	switch($attribute) {
 		case 'style':
 			if(substr($current, -1) !== ';' && substr($add, 0, 1) !== ';') {
@@ -26,8 +45,8 @@ function merge_attributes($attribute, $current, $add) {
 			}
 		break;
 	}
-
 	$separator = apply_filters('afb_attribute_separator', $separator);
+
 	return implode($separator, [$current, $add]);
 }
 
@@ -38,6 +57,7 @@ function merge_attributes($attribute, $current, $add) {
  */
 function get_attributes($args, $node) {
 	$attributes = [];
+
 	foreach($args as $key => $value) {
 		if(strpos($key, '@') === 0) {
 			$attributes[substr($key, 1)] = $value;
@@ -49,6 +69,7 @@ function get_attributes($args, $node) {
 			);
 		}
 	}
+
 	return $attributes;
 }
 
@@ -62,9 +83,8 @@ function get_attributes($args, $node) {
 function add_attributes($args, $html) {
 	$dom = get_dom($html);
 	$body = $dom->getElementsByTagName('body')->item(0);
-	/**
-	 * Add attributes.
-	 */
+
+	// phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 	foreach($body->childNodes as $root) {
 		if(method_exists($root, 'setAttribute')) {
 			foreach(get_attributes($args, $root) as $key => $value) {
@@ -72,5 +92,6 @@ function add_attributes($args, $html) {
 			}
 		}
 	}
+
 	return get_body($dom->saveHTML());
 }
