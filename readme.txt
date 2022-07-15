@@ -4,7 +4,7 @@ Tags: gutenberg, blocks, attributes, id, style, data, aria, onclick
 Requires at least: 5.6
 Tested up to: 6.0
 Requires PHP: 5.4
-Stable tag: 1.0.3
+Stable tag: 1.0.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -58,6 +58,11 @@ Blocks with custom attributes may become invalid, depending on which attributes 
 2. Activate the plugin from **WordPress admin dashboard -> Plugins**.
 
 == Changelog ==
+
+= 1.0.4 =
+* Add `afb_sanitize_attribute_key` and `afb_sanitize_attribute_value` filters.
+* Catch errors when using invalid characters in attribute name/value.
+* Update `@wordpress/*` packages.
 
 = 1.0.3 =
 * Update `@wordpress/*` packages.

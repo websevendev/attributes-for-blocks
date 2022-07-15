@@ -2,6 +2,8 @@
 
 namespace wsd\afb;
 
+use Exception;
+
 defined('ABSPATH') || exit;
 
 /**
@@ -88,7 +90,15 @@ function add_attributes($args, $html) {
 	foreach($body->childNodes as $root) {
 		if(method_exists($root, 'setAttribute')) {
 			foreach(get_attributes($args, $root) as $key => $value) {
-				$root->setAttribute(esc_attr($key), esc_attr($value));
+				try {
+					$root->setAttribute(
+						apply_filters('afb_sanitize_attribute_key', $key),
+						apply_filters('afb_sanitize_attribute_value', $value)
+					);
+				} catch(Exception $e) {
+					/** Possibly `Invalid Character Error` when key/value contains unsupported characters. */
+					do_action('afb_set_attribute_exception', $e, $key, $value, $dom);
+				}
 			}
 		}
 	}

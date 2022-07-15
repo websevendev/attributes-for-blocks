@@ -3,7 +3,7 @@
  * Plugin Name: Attributes for Blocks
  * Plugin URI: https://wordpress.org/plugins/attributes-for-blocks
  * Description: Allows to add HTML attributes to Gutenberg blocks.
- * Version: 1.0.3
+ * Version: 1.0.4
  * Author: websevendev
  * Author URI: https://chap.website/author/websevendev
  */
@@ -25,6 +25,8 @@ require_once WSD_AFB_DIR . '/includes/blocks.php';
 
 add_action('enqueue_block_editor_assets', __NAMESPACE__ . '\\editor_assets', 5);
 add_filter('register_block_type_args', __NAMESPACE__ . '\\block_args', 10, 2);
+add_filter('afb_sanitize_attribute_key', 'esc_attr');
+add_filter('afb_sanitize_attribute_value', 'esc_attr');
 
 /**
  * Add GitHub link on the plugins page.
