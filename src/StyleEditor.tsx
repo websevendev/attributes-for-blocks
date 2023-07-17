@@ -1,8 +1,4 @@
-import type {
-	FunctionComponent,
-	SyntheticEvent,
-} from 'react'
-
+import * as React from 'react'
 import {__} from '@wordpress/i18n'
 
 import {
@@ -27,10 +23,10 @@ type Style = Record<CSSProperty, CSSValue>
 export interface StyleEditorProps {
 	value: string
 	onChange: (nextValue: string) => void
-	toggleStyleEditor: (e?: SyntheticEvent) => void | boolean
+	toggleStyleEditor: (e?: React.SyntheticEvent) => void | boolean
 }
 
-const StyleEditor: FunctionComponent<StyleEditorProps> = ({value, onChange, toggleStyleEditor}) => {
+const StyleEditor: React.FC<StyleEditorProps> = ({value, onChange, toggleStyleEditor}) => {
 
 	/**
 	 * When adding a property that already exists, a dash is automatically appended to prevent overwriting the existing property.
@@ -45,11 +41,13 @@ const StyleEditor: FunctionComponent<StyleEditorProps> = ({value, onChange, togg
 		/** Transform string style into an object. */
 		parsedValue = parse(value) as Style
 	} catch(e) {
-		const resetStyles = (e: SyntheticEvent): false => {
+
+		const resetStyles = (e: React.SyntheticEvent): false => {
 			e.preventDefault()
 			onChange('')
 			return false
 		}
+
 		return <Error toggleStyleEditor={toggleStyleEditor} resetStyles={resetStyles} />
 	}
 
@@ -58,6 +56,7 @@ const StyleEditor: FunctionComponent<StyleEditorProps> = ({value, onChange, togg
 	}
 
 	const updateStyle = (nextStyle: Style) => {
+
 		const format = (key: keyof typeof nextStyle) => {
 			let value = nextStyle[key] || PLACEHOLDER
 			if(value[value.length - 1] === ' ') {
@@ -79,10 +78,12 @@ const StyleEditor: FunctionComponent<StyleEditorProps> = ({value, onChange, togg
 	const keys = Object.keys(parsedValue) as CSSProperty[]
 
 	return <>{keys.map((key, index) => {
+
 		const isFirst = index === 0
 		const isLast = index + 1 === keys.length
 		const isOnly = keys.length === 1
 		const isBlank = key === PLACEHOLDER && parsedValue[key] === PLACEHOLDER
+
 		return (
 			<div
 				key={`rule-${index}`}
@@ -109,7 +110,7 @@ const StyleEditor: FunctionComponent<StyleEditorProps> = ({value, onChange, togg
 							}, {} as Style)
 						)
 					}}
-					onKeyDown={(e: KeyboardEvent) => {
+					onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
 						if(skipDash) {
 							if(e.key === '-') {
 								e.preventDefault()
@@ -118,7 +119,7 @@ const StyleEditor: FunctionComponent<StyleEditorProps> = ({value, onChange, togg
 							setSkipDash(false)
 						}
 					}}
-					onKeyUp={(e: KeyboardEvent) => {
+					onKeyUp={(e: React.KeyboardEvent<HTMLInputElement>) => {
 						if(e.key === 'Enter') {
 							/** Move focus from `Property` to `Value` field. */
 							focusElement(`.wsd-afb-style[data-index="${index}"] .components-base-control + .components-base-control input[type="text"]`, false)
@@ -137,7 +138,7 @@ const StyleEditor: FunctionComponent<StyleEditorProps> = ({value, onChange, togg
 							updateStyle({...parsedValue, [key]: parsedValue[key].replace(SPACE_PLACEHOLDER, '')})
 						}
 					}}
-					onKeyUp={(e: KeyboardEvent) => {
+					onKeyUp={(e: React.KeyboardEvent<HTMLInputElement>) => {
 						if(e.code === 'Enter') {
 							/** Add new empty row if there already isn't one. */
 							const addNewRow = isLast && !parsedValue.hasOwnProperty(PLACEHOLDER)
@@ -239,12 +240,13 @@ const StyleEditor: FunctionComponent<StyleEditorProps> = ({value, onChange, togg
 }
 
 /**
- * Render error message when input styles cannot be parsed.
+ * Renders error message when input styles cannot be parsed.
  */
-const Error: FunctionComponent<{
-	toggleStyleEditor: StyleEditorProps['toggleStyleEditor'],
-	resetStyles: (e: SyntheticEvent) => false,
-}> = ({toggleStyleEditor, resetStyles}) => (
+interface ErrorProps {
+	toggleStyleEditor: StyleEditorProps['toggleStyleEditor']
+	resetStyles: (e: React.SyntheticEvent) => false
+}
+const Error: React.FC<ErrorProps> = ({toggleStyleEditor, resetStyles}) => (
 	<p style={{marginBottom: 0}}>
 		<span style={{color: 'red'}}>
 			{__('Unable to parse styles.', 'attributes-for-blocks')}
@@ -260,16 +262,12 @@ const Error: FunctionComponent<{
 	</p>
 )
 
-/**
- * Strip characters that can't be in style property or value.
- */
+/** Strip characters that can't be in style property or value. */
 const clean = (s: string): string => {
 	return s.replaceAll(':', '').replaceAll(';', '')
 }
 
-/**
- * Focus HTML element.
- */
+/** Focus HTML element. */
 const focusElement = (selector: string, delayed: boolean = true) => {
 	const focus = () => {
 		const element = document.querySelector(selector)

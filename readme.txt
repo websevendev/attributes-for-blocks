@@ -1,10 +1,10 @@
 === Attributes for Blocks ===
 Contributors: websevendev, jimedwards
 Tags: gutenberg, blocks, attributes, id, style, data, aria, onclick
-Requires at least: 5.6
-Tested up to: 6.0
-Requires PHP: 5.4
-Stable tag: 1.0.4
+Requires at least: 6.2.0
+Tested up to: 6.2.2
+Requires PHP: 7.4
+Stable tag: 1.0.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -13,6 +13,8 @@ Allows to add HTML attributes to Gutenberg blocks.
 == Description ==
 
 This plugin adds additional advanced inspector controls to Gutenberg blocks that allow to add any custom HTML attributes to the block's front-end output. This allows you to add inline styles to fine-tune the block's appearance, set aria attributes to improve your site's accessibility, add data attributes to integrate with any JavaScript modules or even JavaScript DOM event attributes such as `onclick`, `onchange` or `onload`.
+
+[Demo](https://playground.wordpress.net/?plugin=attributes-for-blocks&url=%2Fwp-admin%2Fpost.php%3Fpost%3D2%26action%3Dedit)
 
 == Frequently Asked Questions ==
 
@@ -27,6 +29,9 @@ For regular blocks, attributes are added to the block save content's root elemen
 = Does it work for every block? =
 It should work with normal blocks that render a valid WP Element that can utilize the `blocks.getSaveContent.extraProps` filter as well as dynamic blocks that utilize a `render_callback`. Third party blocks that do something unorthodox may not work.
 [Known unsupported blocks](https://plugins.trac.wordpress.org/browser/attributes-for-blocks/trunk/includes/unsupported-blocks.php)
+
+= Usage with Alpine.js =
+`@` prefix in an attribute name is used for "override" mode in this plugin, for Alpine.js attributes use `x-on:click` instead of `@click` or use the shorthand syntax with two `@` characters instead of one: `@@click`.
 
 = Disable block support =
 The `afb_unsupported_blocks` filter can be used in your child theme's `functions.php` file to disable block support for adding additional attributes.
@@ -58,6 +63,17 @@ Blocks with custom attributes may become invalid, depending on which attributes 
 2. Activate the plugin from **WordPress admin dashboard -> Plugins**.
 
 == Changelog ==
+
+= 1.0.5 =
+* Use `WP_HTML_Tag_Processor` for adding HTML attributes.
+* Remove `afb_sanitize_attribute_key` and `afb_sanitize_attribute_value` filters (now handled by `WP_HTML_Tag_Processor`).
+* Use `render_block` filter to apply attributes instead of overriding block's `render_callback`.
+* Move all PHP code to main file for simplicity.
+* Add `$attribute` param to `afb_attribute_separator` filter.
+* Remove uppercase text transform from attribute input labels, use monospace font for value.
+* Add button to edit attributes in a modal for more space.
+* Update `@wordpress/*` packages.
+* Regression: for blocks that render multiple root elements attributes are only applied to the first one.
 
 = 1.0.4 =
 * Add `afb_sanitize_attribute_key` and `afb_sanitize_attribute_value` filters.

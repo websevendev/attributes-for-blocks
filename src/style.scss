@@ -2,173 +2,247 @@
 
 .wsd-afb {
 
-  .wsd-afb-action-input {
-    $height: 32px;
-    $wpInputBorder: 1px solid #757575;
-    $wpInputFocusColor: var(--wp-admin-theme-color);
-    $wpButtonFocusBoxShadow: 0 0 0 var(--wp-admin-border-width-focus) var(--wp-admin-theme-color);
-    $wpButtonFocusBackgroundColor: var(--wp-admin-theme-color-darker-10);
-    $wpButtonBorderColor: var(--wp-admin-theme-color);
-    $wpButtonHoverBorderColor: var(--wp-admin-theme-color-darker-10);
-    $wpBorderRadius: 2px;
+	.wsd-afb-action-input {
+		$height: 32px;
+		$wpInputBorder: 1px solid #757575;
+		$wpInputFocusColor: var(--wp-admin-theme-color);
+		$wpButtonFocusBoxShadow: 0 0 0 var(--wp-admin-border-width-focus) var(--wp-admin-theme-color);
+		$wpButtonFocusBackgroundColor: var(--wp-admin-theme-color-darker-10);
+		$wpButtonBorderColor: var(--wp-admin-theme-color);
+		$wpButtonHoverBorderColor: var(--wp-admin-theme-color-darker-10);
+		$wpBorderRadius: 2px;
 
-    display: flex;
-    flex-direction: row;
-    align-items: flex-end;
-    margin-bottom: 8px;
+		display: flex;
+		flex-direction: row;
+		align-items: flex-end;
+		margin-bottom: 8px;
+		position: relative;
 
-    & > .components-base-control {
-      flex-grow: 1;
-      margin: 0;
+		& > .components-base-control {
+			flex-grow: 1;
+			margin: 0;
 
-      .components-base-control__field {
-        margin: 0;
+			.components-base-control__field {
+				margin: 0;
 
-        .components-text-control__input {
-          height: $height;
-          margin: 0;
-          border-right: 0;
-          border-top-right-radius: 0;
-          border-bottom-right-radius: 0;
-          &[disabled] {
-            cursor: not-allowed;
-          }
-        }
-      }
+				.components-text-control__input {
+					height: $height;
+					min-height: $height;
+					margin: 0;
+					border-right: 0;
+					border-top-right-radius: 0;
+					border-bottom-right-radius: 0;
 
-      & + .components-base-control .components-text-control__input {
-        border-top-left-radius: 0;
-        border-bottom-left-radius: 0;
-      }
-    }
+					&[disabled] {
+						cursor: not-allowed;
+					}
+				}
+			}
 
-    & > button {
-      display: flex;
-      height: $height;
-      border-right-width: 0;
-      border-radius: 0;
-      box-shadow: none;
+			& + .components-base-control .components-text-control__input {
+				border-top-left-radius: 0;
+				border-bottom-left-radius: 0;
+			}
+		}
 
-      /**
-       * `Help` button.
-       */
-      &.is-secondary {
-        border-top: $wpInputBorder;
-        border-bottom: $wpInputBorder;
-        &:hover {
-          box-shadow: none;
-        }
-      }
+		& > button {
+			display: flex;
+			height: $height;
+			min-height: $height;
+			margin: 0;
+			border-right-width: 0;
+			border-radius: 0;
+			box-shadow: none;
 
-      /**
-       * `Add` button.
-       */
-      &.button-primary {
-        order: 1; // Rendered first for tabindex.
-        &:focus {
-          color: #fff;
-          background-color: $wpButtonFocusBackgroundColor;
-          box-shadow: $wpButtonFocusBoxShadow;
-        }
-        &:active {
-          color: #fff;
-        }
-      }
+			&.wsd-afb__button-help {
+				border-top: $wpInputBorder;
+				border-bottom: $wpInputBorder;
 
-      &.icon-button {
-        padding: 6px;
-      }
+				&:hover {
+					box-shadow: none;
+				}
+			}
 
-      &.is-last {
-        border-right-width: 1px;
-        border-top-right-radius: $wpBorderRadius;
-        border-bottom-right-radius: $wpBorderRadius;
-      }
+			&.wsd-afb__button-add {
 
-      &:hover ~ button {
-        border-left-color: $wpButtonHoverBorderColor;
-      }
-    }
+				order: 1; // Rendered first for tabindex.
 
-    &:last-child {
-      margin-bottom: 0;
-    }
+				&:focus {
+					color: #fff;
+					background-color: $wpButtonFocusBackgroundColor;
+					box-shadow: $wpButtonFocusBoxShadow;
+				}
 
-    &:focus-within {
-      .components-text-control__input {
-        box-shadow: none;
-        border-color: $wpInputFocusColor;
-      }
-      button {
-        border-top-color: $wpInputFocusColor;
-        border-bottom-color: $wpInputFocusColor;
-        &:last-child {
-          border-right-color: $wpInputFocusColor;
-        }
-      }
-    }
+				&:active {
+					color: #fff;
+				}
+			}
 
-    & > .wsd-afb-button-group {
-      $width: 34px;
-      display: flex;
-      flex-wrap: wrap;
-      width: $width;
-      min-width: $width;
-      height: $height;
-      margin: 0;
-      padding: 0;
-      box-shadow: none;
-      border: 1px solid $wpButtonBorderColor;
-      border-radius: 0;
-      border-top-right-radius: $wpBorderRadius;
-      border-bottom-right-radius: $wpBorderRadius;
-      & > button {
-        width: math.div($width, 2) - 1px;
-        height: math.div($height, 2) - 1px;
-        min-height: auto;
-        padding: 0;
-        border: 0;
-        border-radius: 0;
-        overflow: hidden !important;
-        & > .dashicon {
-          width: math.div($width, 2) - 3px;
-          height: math.div($height, 2) - 2px;
-          font-size: 14px;
-        }
-        &.is-top-right {
-          border-top-right-radius: $wpBorderRadius;
-        }
-        &.is-bottom-right {
-          border-bottom-right-radius: $wpBorderRadius;
-        }
-      }
-    }
-  }
+			&.wsd-afb__button-full-screen {
+				position: absolute;
+				top: 0;
+				right: 0;
+				padding: 0;
+				margin: 0;
+				width: 18px;
+				height: 18px;
+				min-width: initial;
+				min-height: initial;
+			}
 
-  form.wsd-afb-action-input {
-    margin-bottom: 0;
-  }
+			&.icon-button {
+				padding: 6px;
+			}
 
-  .wsd-afb-message {
-    margin-bottom: 4px;
-  }
+			&.is-last {
+				border-right-width: 1px;
+				border-top-right-radius: $wpBorderRadius;
+				border-bottom-right-radius: $wpBorderRadius;
+			}
 
-  .wsd-afb-action-link {
-    position: absolute;
-    align-self: flex-start;
-    justify-self: flex-start;
-    right: 16px;
-    & > a {
-      font-size: 12px;
-    }
-  }
+			&:hover ~ button {
+				border-left-color: $wpButtonHoverBorderColor;
+			}
+		}
+
+		&:last-child {
+			margin-bottom: 0;
+		}
+
+		&:focus-within {
+
+			.components-text-control__input {
+				box-shadow: none;
+				border-color: $wpInputFocusColor;
+			}
+
+			button {
+				border-top-color: $wpInputFocusColor;
+				border-bottom-color: $wpInputFocusColor;
+
+				&:last-child {
+					border-right-color: $wpInputFocusColor;
+				}
+			}
+		}
+
+		& > .wsd-afb-button-group {
+			$width: 34px;
+			display: flex;
+			flex-wrap: wrap;
+			width: $width;
+			min-width: $width;
+			height: $height;
+			margin: 0;
+			padding: 0;
+			box-shadow: none;
+			border: 1px solid $wpButtonBorderColor;
+			border-radius: 0;
+			border-top-right-radius: $wpBorderRadius;
+			border-bottom-right-radius: $wpBorderRadius;
+
+			& > button {
+				width: math.div($width, 2) - 1px;
+				height: math.div($height, 2) - 1px;
+				min-height: auto;
+				padding: 0;
+				border: 0;
+				border-radius: 0;
+				overflow: hidden !important;
+
+				& > .dashicon {
+					width: math.div($width, 2) - 3px;
+					height: math.div($height, 2) - 2px;
+					font-size: 14px;
+				}
+
+				&.is-top-right {
+					border-top-right-radius: $wpBorderRadius;
+				}
+
+				&.is-bottom-right {
+					border-bottom-right-radius: $wpBorderRadius;
+				}
+			}
+		}
+	}
+
+	form.wsd-afb-action-input {
+		margin-bottom: 0;
+	}
+
+	.wsd-afb-action-input:not(form) {
+		margin-bottom: 0;
+
+		.components-base-control__label {
+			text-transform: none;
+			margin-bottom: 2px;
+			font-size: 12px;
+		}
+
+		input.components-text-control__input {
+			font-family: Menlo, Consolas, Monaco, Liberation Mono, Lucida Console, monospace;
+
+			&::placeholder {
+				font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen-Sans, Ubuntu,Cantarell, Helvetica Neue, sans-serif;
+			}
+		}
+	}
+
+	.wsd-afb-message {
+		margin: -8px 0 !important;
+		font-size: 12px;
+		color: red;
+	}
+
+	.wsd-afb-action-link {
+		position: absolute;
+		align-self: flex-start;
+		justify-self: flex-start;
+		right: 0;
+
+		& > a {
+			font-size: 12px;
+		}
+	}
 }
 
-.wsd-afb-help {
-  h3 {
-    margin-bottom: 0;
-    &:first-child {
-      margin-top: 0;
-    }
-  }
+.wsd-afb__help {
+
+	&__content {
+
+		:is(h2, h3, h4, h5, h6) {
+			margin-bottom: 0;
+
+			&:first-child {
+				margin-top: 0;
+			}
+		}
+	}
+}
+
+.wsd-afb__full-screen {
+
+	&__content {
+
+		& > .components-base-control {
+
+			& > .components-base-control__field {
+
+				&:last-child {
+					margin-bottom: 0;
+				}
+			}
+		}
+
+		form.wsd-afb-action-input {
+
+			.components-base-control__field {
+
+				& > .components-base-control__label {
+					display: none;
+				}
+			}
+		}
+	}
 }

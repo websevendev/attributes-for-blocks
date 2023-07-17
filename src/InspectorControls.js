@@ -16,7 +16,15 @@ import {
 	TextControl,
 	Button,
 	Dashicon,
+	__experimentalHStack as HStack,
+	__experimentalVStack as VStack,
+	__experimentalView as View,
+	Modal,
 } from '@wordpress/components';
+
+import {
+	fullscreen as fullscreenIcon,
+} from '@wordpress/icons'
 
 import HelpModal from './HelpModal';
 import StyleEditor from './StyleEditor';
@@ -29,6 +37,7 @@ import {
  * Inspector controls for Attributes for Blocks.
  */
 class InspectorControls extends Component {
+
 	constructor() {
 		super(...arguments);
 
@@ -36,6 +45,7 @@ class InspectorControls extends Component {
 			adding: '',
 			message: undefined,
 			styleEditor: JSON.parse(localStorage.getItem('attributesForBlocks/styleEditor')) || false,
+			isFullscreen: false,
 		};
 
 		this.addAttribute = this.addAttribute.bind(this);
@@ -51,6 +61,7 @@ class InspectorControls extends Component {
 	 * @param {object} prevState
 	 */
 	componentDidUpdate(prevProps, prevState) {
+
 		if(prevState.adding && !this.state.adding) {
 			/** Focus newly added attribute. */
 			setTimeout(() => {
@@ -61,6 +72,7 @@ class InspectorControls extends Component {
 				}
 			}, 150);
 		}
+
 		if(prevState.styleEditor !== this.state.styleEditor) {
 			/** Sync style editor setting. */
 			localStorage.setItem('attributesForBlocks/styleEditor', this.state.styleEditor);
@@ -73,6 +85,7 @@ class InspectorControls extends Component {
 	 * @param {*} event Form submit event.
 	 */
 	addAttribute(event) {
+
 		event.preventDefault();
 
 		let {adding} = this.state;
@@ -166,16 +179,31 @@ class InspectorControls extends Component {
 	 * Render Attributes for Blocks inspector controls.
 	 */
 	render() {
-		let {adding} = this.state;
-		let {attributesForBlocks} = this.props.attributes;
 
-		return (
-			<InspectorAdvancedControls>
-				<BaseControl className='wsd-afb'>
+		const {
+			adding,
+			isFullscreen,
+		} = this.state;
+
+		const {
+			attributesForBlocks,
+		} = this.props.attributes;
+
+		const controls = (
+			<BaseControl className='wsd-afb'>
+				<VStack spacing={2}>
 					<form
 						className='wsd-afb-action-input'
 						onSubmit={this.addAttribute}
 					>
+						{!isFullscreen && (
+							<Button
+								className='wsd-afb__button-full-screen'
+								aria-label={__('Full screen', 'attributes-for-blocks')}
+								icon={fullscreenIcon}
+								onClick={() => this.setState({isFullscreen: !isFullscreen})}
+							/>
+						)}
 						<TextControl
 							label={__('Additional attributes', 'attributes-for-blocks')}
 							placeholder={__('Attribute name...', 'attributes-for-blocks')}
@@ -186,7 +214,8 @@ class InspectorControls extends Component {
 							})}
 						/>
 						<Button
-							className='button button-primary is-last'
+							className='wsd-afb__button-add is-last'
+							variant='primary'
 							type='submit'
 							aria-label={__('Add attribute', 'attributes-for-blocks')}
 						>
@@ -246,7 +275,25 @@ class InspectorControls extends Component {
 							</Fragment>
 						);
 					})}
-				</BaseControl>
+				</VStack>
+			</BaseControl>
+		)
+
+		return (
+			<InspectorAdvancedControls>
+				{isFullscreen && (
+					<Modal
+						title={__('Additional attributes', 'attributes-for-blocks')}
+						onRequestClose={() => this.setState({isFullscreen: false})}
+						className='wsd-afb__full-screen'
+						style={{minWidth: 640}}
+					>
+						<View className='wsd-afb__full-screen__content'>
+							{controls}
+						</View>
+					</Modal>
+				)}
+				{!isFullscreen && controls}
 			</InspectorAdvancedControls>
 		);
 	}

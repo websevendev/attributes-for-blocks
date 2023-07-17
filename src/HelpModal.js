@@ -31,7 +31,7 @@ export default HelpModal = () => {
 		<Fragment>
 			<Button
 				isSecondary
-				className='wsd-afb-help-button'
+				className='wsd-afb__button-help'
 				aria-label={__('Show Attributes for Blocks help', 'attributes-for-blocks')}
 				onClick={() => setIsOpen(true)}
 				icon={help}
@@ -40,9 +40,10 @@ export default HelpModal = () => {
 				<Modal
 					title={__('Attributes for Blocks help', 'attributes-for-blocks')}
 					onRequestClose={() => setIsOpen(false)}
+					className='wsd-afb__help'
 					style={{maxWidth: 720}}
 				>
-					<div className='wsd-afb-help'>
+					<div className='wsd-afb__help__content'>
 						<h3>{__('How do I add an attribute?', 'attributes-for-blocks')}</h3>
 						<p>{__(`Type an attribute name into the "Add attribute" field and press "Add" to add an attribute for the block. A new input with the attribute's name should appear below, into which you can optionally insert the attribute value.`, 'attributes-for-blocks')}</p>
 						<RawHTML as='p'>{`
