@@ -286,7 +286,7 @@ class InspectorControls extends Component {
 						title={__('Additional attributes', 'attributes-for-blocks')}
 						onRequestClose={() => this.setState({isFullscreen: false})}
 						className='wsd-afb__full-screen'
-						style={{minWidth: 640}}
+						size='large'
 					>
 						<View className='wsd-afb__full-screen__content'>
 							{controls}

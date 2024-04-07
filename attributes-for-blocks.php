@@ -3,9 +3,9 @@
  * Plugin Name: Attributes for Blocks
  * Plugin URI: https://wordpress.org/plugins/attributes-for-blocks
  * Description: Allows to add HTML attributes to Gutenberg blocks.
- * Version: 1.0.5
+ * Version: 1.0.6
  * Author: websevendev
- * Author URI: https://chap.website/author/websevendev
+ * Author URI: https://github.com/websevendev
  */
 
 namespace wsd\afb;
@@ -19,7 +19,6 @@ $afb_plugin = get_plugin_data(__FILE__, false, false);
 define('WSD_AFB_VER', $afb_plugin['Version']);
 define('WSD_AFB_FILE', __FILE__);
 define('WSD_AFB_DIR', dirname(__FILE__));
-
 
 /**
  * Blocks known to not work properly with Attributes for Blocks.
@@ -55,7 +54,8 @@ function editor_assets() {
 		'attributes-for-blocks',
 		plugins_url('build/index.js', WSD_AFB_FILE),
 		$asset['dependencies'],
-		$asset['version']
+		$asset['version'],
+		false
 	);
 
 	wp_localize_script(
@@ -202,7 +202,7 @@ function block_args($args, $name) {
 		$not_supported = get_unsupported_blocks();
 	}
 
-	if(in_array($name, $not_supported)) {
+	if(in_array($name, $not_supported, true)) {
 		return $args;
 	}
 
@@ -239,7 +239,7 @@ function render_block($block_content, $block) {
 		return $block_content;
 	}
 
-	if(!has_attributes($block['attrs'])) {
+	if(!has_attributes($block['attrs'] ?? [])) {
 		return $block_content;
 	}
 

@@ -23,14 +23,13 @@ import {
 /**
  * Modal that displays help info.
  */
-let HelpModal;
-export default HelpModal = () => {
+const HelpModal = () => {
 	const [isOpen, setIsOpen] = useState(false);
 
 	return (
 		<Fragment>
 			<Button
-				isSecondary
+				variant='secondary'
 				className='wsd-afb__button-help'
 				aria-label={__('Show Attributes for Blocks help', 'attributes-for-blocks')}
 				onClick={() => setIsOpen(true)}
@@ -95,3 +94,5 @@ export default HelpModal = () => {
 		</Fragment>
 	);
 };
+
+export default HelpModal;

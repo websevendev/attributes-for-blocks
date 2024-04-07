@@ -72,7 +72,6 @@ export const mergeAttributes = function(attribute, current, add) {
  *
  * @param {string} props.children HTML to render.
  * @param {string} props.as HTML element to render.
- *
  * @return {Element} Dangerously-rendering element.
  */
 export const RawHTML = ({children, as = 'div', ...props}) => {

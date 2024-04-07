@@ -2,9 +2,9 @@
 Contributors: websevendev, jimedwards
 Tags: gutenberg, blocks, attributes, id, style, data, aria, onclick
 Requires at least: 6.2.0
-Tested up to: 6.2.2
+Tested up to: 6.5
 Requires PHP: 7.4
-Stable tag: 1.0.5
+Stable tag: 1.0.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -63,6 +63,11 @@ Blocks with custom attributes may become invalid, depending on which attributes 
 2. Activate the plugin from **WordPress admin dashboard -> Plugins**.
 
 == Changelog ==
+
+= 1.0.6 =
+* Tested up to WordPress 6.5.
+* Fix PHP notice when rendering a block that doesn't have any attributes.
+* Update `@wordpress/*` packages.
 
 = 1.0.5 =
 * Use `WP_HTML_Tag_Processor` for adding HTML attributes.
