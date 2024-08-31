@@ -8,6 +8,7 @@ import {
 } from '@wordpress/hooks'
 
 describe('renameProp()', () => {
+
 	const obj = {asd: 'qwe', foo: 'bar', baz: 'xed'}
 	const oKeys = Object.keys(obj)
 	const obj2 = renameProp('foo', '@foo', obj)
@@ -27,6 +28,7 @@ describe('renameProp()', () => {
 })
 
 describe('mergeAttributes()', () => {
+
 	it('merges string style', () => {
 		const mergedStyle = mergeAttributes('style', 'color:red', 'font-weight:bold')
 		expect(mergedStyle).toBe('color:red;font-weight:bold')

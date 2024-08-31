@@ -1,0 +1,11 @@
+{
+	"compilerOptions": {
+		"strict": true,
+		"noEmit": true,
+		"jsx": "preserve",
+		"lib": ["dom", "esnext"],
+		"esModuleInterop": true,
+		"resolveJsonModule": true
+	},
+	"include": ["./src/**/*"]
+}

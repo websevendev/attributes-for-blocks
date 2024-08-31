@@ -56,6 +56,10 @@ const HelpModal = () => {
 							<code>data-*</code>,
 							<code>aria-*</code>.
 						`}</RawHTML>
+						<h3>{__('Why is the input disabled?', 'attributes-for-blocks')}</h3>
+						<RawHTML as='p'>{`
+							${__("When the current user doesn't have `unfiltered_html` capabilities attributes cannot be added and all existing attributes are stripped when the post is updated.", 'attributes-for-blocks')}
+						`}</RawHTML>
 						<h3>{__('How does it work?', 'attributes-for-blocks')}</h3>
 						<RawHTML as='p'>{`
 							${__("For regular blocks, attributes are added to the block save content's root element, meaning they will be rendered only on the front end and not in the editor. For dynamic blocks the attributes are added via `render_callback` function and they may also be applied in the editor, depending if the block is rendered server or client side.", 'attributes-for-blocks')}

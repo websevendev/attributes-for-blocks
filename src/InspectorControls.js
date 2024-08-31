@@ -16,11 +16,22 @@ import {
 	TextControl,
 	Button,
 	Dashicon,
-	__experimentalHStack as HStack,
 	__experimentalVStack as VStack,
 	__experimentalView as View,
 	Modal,
 } from '@wordpress/components';
+
+import {
+	compose,
+} from '@wordpress/compose';
+
+import {
+	withSelect,
+} from '@wordpress/data';
+
+import {
+	store as editorStore,
+} from '@wordpress/editor';
 
 import {
 	fullscreen as fullscreenIcon,
@@ -212,12 +223,14 @@ class InspectorControls extends Component {
 								adding: value,
 								message: undefined,
 							})}
+							disabled={!this.props.canUserUseUnfilteredHTML}
 						/>
 						<Button
 							className='wsd-afb__button-add is-last'
 							variant='primary'
 							type='submit'
 							aria-label={__('Add attribute', 'attributes-for-blocks')}
+							disabled={!this.props.canUserUseUnfilteredHTML}
 						>
 							{__('Add', 'attributes-for-blocks')}
 						</Button>
@@ -231,7 +244,7 @@ class InspectorControls extends Component {
 						return (
 							<Fragment key={attribute}>
 								<div id={`afb-${normalizedName}`} className='wsd-afb-action-input'>
-									{normalizedName.toLowerCase() === 'style' && (
+									{normalizedName.toLowerCase() === 'style' && this.props.canUserUseUnfilteredHTML && (
 										<div className='wsd-afb-action-link'>
 											<a href='#' role='button' onClick={this.toggleStyleEditor}>
 												{__('Toggle editor', 'attributes-for-blocks')}
@@ -245,7 +258,7 @@ class InspectorControls extends Component {
 												{isOverride && ' ' + __('(override)', 'attributes-for-blocks')}
 											</Fragment>
 										)}
-										disabled={editor === 'style'}
+										disabled={editor === 'style' || !this.props.canUserUseUnfilteredHTML}
 										value={attributesForBlocks[attribute]}
 										onChange={value => this.updateAttribute(attribute, value)}
 									/>
@@ -254,6 +267,7 @@ class InspectorControls extends Component {
 										aria-label={__('Toggle between merge and override mode', 'attributes-for-blocks')}
 										aria-current={isOverride ? __('Override', 'attributes-for-blocks') : __('Merge', 'attributes-for-blocks')}
 										onClick={() => this.toggleAttributeMode(attribute)}
+										disabled={!this.props.canUserUseUnfilteredHTML}
 									>
 										<Dashicon icon='randomize' />
 									</Button>
@@ -261,11 +275,12 @@ class InspectorControls extends Component {
 										className='button icon-button is-last'
 										aria-label={__('Remove attribute', 'attributes-for-blocks') + ': ' + normalizedName}
 										onClick={() => this.removeAttribute(attribute)}
+										disabled={!this.props.canUserUseUnfilteredHTML}
 									>
 										<Dashicon icon='no-alt' />
 									</Button>
 								</div>
-								{editor === 'style' && (
+								{editor === 'style' && this.props.canUserUseUnfilteredHTML && (
 									<StyleEditor
 										value={attributesForBlocks[attribute]}
 										onChange={value => this.updateAttribute(attribute, value)}
@@ -299,4 +314,15 @@ class InspectorControls extends Component {
 	}
 }
 
-export default InspectorControls;
+export default compose( [
+	withSelect(select => {
+
+		const {
+			canUserUseUnfilteredHTML,
+		} = select(editorStore);
+
+		return {
+			canUserUseUnfilteredHTML: canUserUseUnfilteredHTML(),
+		};
+	}),
+])(InspectorControls);

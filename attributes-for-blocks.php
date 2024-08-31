@@ -3,7 +3,7 @@
  * Plugin Name: Attributes for Blocks
  * Plugin URI: https://wordpress.org/plugins/attributes-for-blocks
  * Description: Allows to add HTML attributes to Gutenberg blocks.
- * Version: 1.0.6
+ * Version: 1.0.7
  * Author: websevendev
  * Author URI: https://github.com/websevendev
  */
@@ -246,6 +246,44 @@ function render_block($block_content, $block) {
 	return add_attributes($block['attrs']['attributesForBlocks'], $block_content);
 }
 add_filter('render_block', __NAMESPACE__ . '\\render_block', 10, 2);
+
+
+/**
+ * Strips `attributesForBlocks` block attribute when the current user doesn't have `unfiltered_html` capabilities.
+ *
+ * @param string $content Content to filter through KSES.
+ */
+function sanitize_attributes($content) {
+
+	if(current_user_can('unfiltered_html')) {
+		return $content;
+	}
+
+	if(!has_blocks($content)) {
+		return $content;
+	}
+
+	if(strpos($content, 'attributesForBlocks') === false) {
+		return $content;
+	}
+
+	$matches = null;
+	if(preg_match_all('/\\\?"attributesForBlocks\\\?"\s*:\s*{[^}]*}/', $content, $matches)) {
+
+		foreach($matches[0] as $atts) {
+
+			$empty_atts = '"attributesForBlocks":{}';
+			$was_slashed = wp_unslash($atts) !== $atts;
+			if($was_slashed) {
+				$empty_atts = wp_slash($empty_atts);
+			}
+			$content = str_replace($atts, $empty_atts, $content);
+		}
+	}
+
+	return $content;
+}
+add_filter('pre_kses', __NAMESPACE__ . '\\sanitize_attributes');
 
 
 /**
