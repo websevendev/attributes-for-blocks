@@ -4,7 +4,7 @@ Tags: gutenberg, blocks, attributes, style, aria
 Requires at least: 6.2.0
 Tested up to: 6.6
 Requires PHP: 7.4
-Stable tag: 1.0.7
+Stable tag: 1.0.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -75,6 +75,9 @@ You can modify which roles have the `unfiltered_html` capability using custom co
 2. Activate the plugin from **WordPress admin dashboard -> Plugins**.
 
 == Changelog ==
+
+= 1.0.8 =
+* Try fix potential issue with `current_user_can` check when WP pluggable functions aren't loaded.
 
 = 1.0.7 =
 * Security update: users without `unfiltered_html` capability can no longer add attributes. When a user without the capability updates a post all existing attributes are stripped. Issue discovered by Francesco Carlucci (CVE ID: CVE-2024-8318, CVSS Severity Score: 6.4 (Medium)). The vulnerability made it possible for authenticated attackers, with Contributor-level access and above, to inject arbitrary web scripts in pages that will execute whenever a user accessed an injected page.
