@@ -4,7 +4,7 @@ Tags: gutenberg, blocks, attributes, style, aria
 Requires at least: 6.2.0
 Tested up to: 6.6
 Requires PHP: 7.4
-Stable tag: 1.0.8
+Stable tag: 1.0.9
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -21,7 +21,7 @@ This plugin adds additional advanced inspector controls to Gutenberg blocks that
 = How do I add an attribute? =
 In your selected block's inspector controls (Block settings) scroll all the way to the bottom and click on "Advanced". It should contain a section called "Additional attributes".
 Type an attribute name into the "Add attribute" field and press "Add" to add an attribute for the block. A new input with the attribute's name should appear below, into which you can optionally insert the attribute value.
-Example attributes: `style`, `title`, `target`, `class`, `id`, `onClick`, `data-*`, `aria-*`.
+Example attributes: `style`, `title`, `target`, `class`, `id`, `onclick`, `data-*`, `aria-*`.
 
 = Why is the input disabled? =
 When the current user doesn't have `unfiltered_html` capabilities attributes cannot be added and all existing attributes are stripped when the post is updated.
@@ -76,8 +76,11 @@ You can modify which roles have the `unfiltered_html` capability using custom co
 
 == Changelog ==
 
+= 1.0.9 =
+* Try fix issue with `current_user_can` check in `pre_kses` when `SECURE_AUTH_COOKIE` isn't defined.
+
 = 1.0.8 =
-* Try fix potential issue with `current_user_can` check when WP pluggable functions aren't loaded.
+* Try fix issue with `current_user_can` check in `pre_kses` when WP pluggable functions aren't loaded.
 
 = 1.0.7 =
 * Security update: users without `unfiltered_html` capability can no longer add attributes. When a user without the capability updates a post all existing attributes are stripped. Issue discovered by Francesco Carlucci (CVE ID: CVE-2024-8318, CVSS Severity Score: 6.4 (Medium)). The vulnerability made it possible for authenticated attackers, with Contributor-level access and above, to inject arbitrary web scripts in pages that will execute whenever a user accessed an injected page.
