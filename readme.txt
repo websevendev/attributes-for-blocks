@@ -2,9 +2,9 @@
 Contributors: websevendev, jimedwards
 Tags: gutenberg, blocks, attributes, style, aria
 Requires at least: 6.2.0
-Tested up to: 6.6
+Tested up to: 6.7.1
 Requires PHP: 7.4
-Stable tag: 1.0.9
+Stable tag: 1.0.10
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -75,6 +75,9 @@ You can modify which roles have the `unfiltered_html` capability using custom co
 2. Activate the plugin from **WordPress admin dashboard -> Plugins**.
 
 == Changelog ==
+
+= 1.0.10 =
+* Added `afb_get_attributes` filter, allowing to dynamically modify attributes.
 
 = 1.0.9 =
 * Try fix issue with `current_user_can` check in `pre_kses` when `SECURE_AUTH_COOKIE` isn't defined.

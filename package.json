@@ -6,9 +6,9 @@
 	"license": "GPL-2.0-or-later",
 	"main": "src/index.js",
 	"scripts": {
-		"start": "wp-scripts start",
+		"start": "wp-scripts start --stats=minimal",
 		"start:hot": "wp-scripts start --hot --allowed-hosts all",
-		"build": "wp-scripts build",
+		"build": "wp-scripts build --stats=errors-only",
 		"test": "wp-scripts test-unit-js",
 		"test:watch": "wp-scripts test-unit-js --watch",
 		"release": "pnpm run test && pnpm run build && wp dist-archive . ./attributes-for-blocks.zip"

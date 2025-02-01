@@ -314,7 +314,7 @@ class InspectorControls extends Component {
 	}
 }
 
-export default compose( [
+export default compose([
 	withSelect(select => {
 
 		const {
